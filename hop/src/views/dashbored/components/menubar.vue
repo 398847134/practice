@@ -7,6 +7,7 @@
         @close="handleClose"
         background-color="#545c64"
         text-color="#fff"
+        router="true"
         active-text-color="#ffd04b">
         <el-menu-item index="1">
           <i class="el-icon-menu"></i>
@@ -18,8 +19,8 @@
             <span>导航二</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="test1">选项1</el-menu-item>
+            <el-menu-item index="test2">选项2</el-menu-item>
           </el-menu-item-group>
           <el-menu-item index="2-3">选项3</el-menu-item>
           <el-submenu index="2-4">

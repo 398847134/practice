@@ -2,14 +2,15 @@
   <div class="maincontaint">
     <menubar></menubar>
     <topleadbar/>
+    <APPmain></APPmain>
   </div>
 </template>
 
 <script>
-import {menubar, topleadbar} from './components'
+import {menubar, topleadbar, APPmain} from './components'
 export default {
   name: "mainpage",
-  components: {menubar,topleadbar},
+  components: {menubar, topleadbar, APPmain},
 }
 </script>
 
@@ -24,5 +25,10 @@ export default {
   width: 14%;
   height: 100%;
   background-color: rgb(84, 92, 100);
+}
+</style>
+<style>
+.el-submenu__title{
+ padding-left: 0px !important;
 }
 </style>

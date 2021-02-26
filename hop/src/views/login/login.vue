@@ -55,8 +55,16 @@ export default {
 
   },
   methods: {
-    submitForm (form) {
-      this.$router.push('mainpage')
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$message.success('登陆成功')
+          this.$router.push('mainpage')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     }
   },
   watch: {

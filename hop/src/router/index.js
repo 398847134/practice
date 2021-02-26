@@ -12,7 +12,22 @@ export default new Router({
     {
       path: '/mainPage',
       name: 'mainpage',
-      component: () => import('@/views/dashbored/mainPage')
+      component: () => import('@/views/dashbored/mainPage'),
+      noCache: true,
+      children: [
+        {
+          path: 'test1',
+          name: 'test1',
+          component: () => import('@/views/testtable/test1'),
+          noCache: true
+        },
+        {
+          path: 'test2',
+          name: 'test2',
+          component: () => import('@/views/testtable/test2'),
+          noCache: true
+        }
+      ]
     }
   ]
 })
