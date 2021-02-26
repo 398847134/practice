@@ -28,14 +28,14 @@
             <el-menu-item index="2-4-1">选项1</el-menu-item>
           </el-submenu>
         </el-submenu>
-        <el-submenu index="3">
+        <el-submenu index="permission">
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span>导航三</span>
+          <span>用户权限</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="3-1">选项1</el-menu-item>
-          <el-menu-item index="3-2">选项2</el-menu-item>
+          <el-menu-item index="user">用户权限</el-menu-item>
+          <el-menu-item index="role">角色设置</el-menu-item>
         </el-menu-item-group>
         <el-menu-item index="3-3">选项3</el-menu-item>
         <el-submenu index="3-4">

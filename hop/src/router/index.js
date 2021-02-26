@@ -7,7 +7,8 @@ export default new Router({
     {
       path: '/',
       name: 'login',
-      component: () => import('@/views/login/login')
+      component: () => import('@/views/login/login'),
+      noCache: true
     },
     {
       path: '/mainPage',
@@ -26,8 +27,21 @@ export default new Router({
           name: 'test2',
           component: () => import('@/views/testtable/test2'),
           noCache: true
+        },
+        {
+          path: 'user',
+          name: 'user',
+          component: () => import('@/views/permission/user'),
+          noCache: true
+        },
+        {
+          path: 'role',
+          name: 'role',
+          component: () => import('@/views/permission/role'),
+          noCache: true
         }
       ]
-    }
+    },
   ]
 })
+
