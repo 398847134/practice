@@ -17,25 +17,25 @@ export default new Router({
       noCache: true,
       children: [
         {
-          path: 'test1',
+          path: '/test1',
           name: 'test1',
           component: () => import('@/views/testtable/test1'),
           noCache: true
         },
         {
-          path: 'test2',
+          path: '/test2',
           name: 'test2',
           component: () => import('@/views/testtable/test2'),
           noCache: true
         },
         {
-          path: 'user',
+          path: '/user',
           name: 'user',
           component: () => import('@/views/permission/user'),
           noCache: true
         },
         {
-          path: 'role',
+          path: '/role',
           name: 'role',
           component: () => import('@/views/permission/role'),
           noCache: true
