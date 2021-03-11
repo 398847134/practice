@@ -6,7 +6,12 @@
 
 <script>
 export default {
-  name: "APPmain"
+  name: "APPmain",
+  computed: {
+    key () {
+      return this.$route.fullPath
+    }
+  }
 }
 </script>
 
@@ -17,7 +22,7 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
-  left: 14%;
-  top: 6.5%;
+  left: 200px;
+  top: 100px;
 }
 </style>
