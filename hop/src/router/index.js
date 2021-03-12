@@ -27,21 +27,28 @@ export default new Router({
           name: 'test2',
           component: () => import('@/views/testtable/test2'),
           noCache: true
-        },
+        }
+      ]
+    },{
+      path: '/permission',
+      name: 'permission',
+      component: () => import('@/views/dashbored/mainPage'),
+      noCache: true,
+      children: [
         {
-          path: '/user',
+          path: '/permission/user',
           name: 'user',
           component: () => import('@/views/permission/user'),
           noCache: true
         },
         {
-          path: '/role',
+          path: '/permission/role',
           name: 'role',
           component: () => import('@/views/permission/role'),
           noCache: true
         }
       ]
-    },
+    }
   ]
 })
 

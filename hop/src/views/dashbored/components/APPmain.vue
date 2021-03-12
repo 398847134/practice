@@ -17,12 +17,12 @@ export default {
 
 <style scoped>
 .main{
-  height: 93.5%;
+  height: 91.7%;
   width: 100%;
   position: absolute;
   bottom: 0;
   right: 0;
   left: 200px;
-  top: 100px;
+  top: 80px;
 }
 </style>

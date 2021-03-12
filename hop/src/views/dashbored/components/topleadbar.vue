@@ -32,11 +32,11 @@ export default {
       editableTabs: [{
         title: 'Tab 1',
         name: '1',
-        content: 'Tab 1 content'
+        content: ''
       }, {
         title: 'Tab 2',
         name: '2',
-        content: 'Tab 2 content'
+        content: ''
       }],
       tabIndex: 2
     };
@@ -44,6 +44,7 @@ export default {
   watch: {
     $route(route) {
       this.getBreadcrumb()
+      console.log(this.$route)
     }
   },
   created(){
@@ -94,7 +95,7 @@ export default {
       this.$router.push(this.pathCompile(path))
     },
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     getBreadcrumb () {
 
