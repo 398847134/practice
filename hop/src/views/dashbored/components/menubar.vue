@@ -18,10 +18,10 @@
         <el-submenu index="/">
           <template slot="title">
             <i class="el-icon-location"></i>
-            <span>导航二</span>
+            <span>信息</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/test1">选项1</el-menu-item>
+            <el-menu-item index="/hotel/hotelInfo">基础信息</el-menu-item>
             <el-menu-item index="/test2">选项2</el-menu-item>
           </el-menu-item-group>
           <el-menu-item index="2-3">选项3</el-menu-item>
@@ -71,7 +71,6 @@ export default {
     handleClose(key, keyPath) {
     },
     select (index,indexPath) {
-      console.log(index,indexPath)
     }
   }
 }

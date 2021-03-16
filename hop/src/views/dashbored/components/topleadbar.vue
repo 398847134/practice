@@ -1,15 +1,13 @@
 <template>
   <div class="conta">
     <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
-      <el-breadcrumb-item :to="{ path: '/mainpage' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-      <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-      <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+<!--      <el-breadcrumb-item :to="{ path: '/mainpage' }">首页</el-breadcrumb-item>-->
+      <el-breadcrumb-item v-for="item in levelList" :key="item.path">{{item.meta.title}}</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-tabs v-model="editableTabsValue" type="card" editable @edit="handleTabsEdit" class="mn">
+    <el-tabs v-model="editableTabsValue" type="card" editable @edit="handleTabsEdit" class="mn" @tab-click="tabClick">
       <el-tab-pane
         :key="item.name"
-        v-for="(item, index) in editableTabs"
+        v-for="item in editableTabs"
         :label="item.title"
         :name="item.name"
       >
@@ -29,29 +27,33 @@ export default {
       levelList: [],
       activeIndex: '1',
       activeIndex2: '1',
-      editableTabs: [{
-        title: 'Tab 1',
-        name: '1',
-        content: ''
-      }, {
-        title: 'Tab 2',
-        name: '2',
-        content: ''
-      }],
+      editableTabs: [
+        {
+          title: '首页',
+          name: '1',
+          content: ''
+        },
+        {
+          title: '基础信息',
+          name: '2',
+          content: ''
+        }
+      ],
       tabIndex: 2
     };
   },
   watch: {
     $route(route) {
       this.getBreadcrumb()
-      console.log(this.$route)
     }
   },
   created(){
     this.getBreadcrumb();
-    console.log(this.$route)
   },
   methods: {
+    tabClick (teb) {
+      console.log(teb)
+    },
     handleTabsEdit(targetName, action) {
       if (action === 'add') {
         let newTabName = ++this.tabIndex + '';
@@ -97,9 +99,13 @@ export default {
     handleSelect(key, keyPath) {
       // console.log(key, keyPath);
     },
-    getBreadcrumb () {
-
-
+    getBreadcrumb() {
+      let matched = this.$route.matched.filter(item => item.name)
+      const first = matched[0];
+      if (first && first.name.trim().toLocaleLowerCase() !== 'Dashboard'.toLocaleLowerCase()) {
+        matched = [{ path: '/mainPage', meta: { title: '首页' }}].concat(matched)
+      }
+      this.levelList = matched
     }
   }
 }

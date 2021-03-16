@@ -8,11 +8,14 @@ import animate from 'animate.css'
 import echarts from 'echarts'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'vuetify/dist/vuetify.css'
+import {fetch} from './utils/https'
 
 Vue.use(ElementUI);
 Vue.use(Vuetify)
 Vue.use(echarts)
 Vue.use(animate)
+// 请求封装
+Vue.prototype.$fetch = fetch
 
 new Vue({
   el: '#app',

@@ -7,44 +7,53 @@ export default new Router({
     {
       path: '/',
       name: 'login',
+      meta: {title: '登录'},
       component: () => import('@/views/login/login'),
       noCache: true
     },
     {
       path: '/mainPage',
       name: 'mainpage',
+      meta: {title: '首页'},
       component: () => import('@/views/dashbored/mainPage'),
       noCache: true,
       children: [
-        {
-          path: '/test1',
-          name: 'test1',
-          component: () => import('@/views/testtable/test1'),
-          noCache: true
-        },
-        {
-          path: '/test2',
-          name: 'test2',
-          component: () => import('@/views/testtable/test2'),
-          noCache: true
-        }
+
       ]
     },{
       path: '/permission',
       name: 'permission',
       component: () => import('@/views/dashbored/mainPage'),
       noCache: true,
+      meta: {title: '权限中心'},
       children: [
         {
           path: '/permission/user',
           name: 'user',
+          meta: {title: '用户管理'},
           component: () => import('@/views/permission/user'),
           noCache: true
         },
         {
           path: '/permission/role',
           name: 'role',
+          meta: {title:'角色列表'},
           component: () => import('@/views/permission/role'),
+          noCache: true
+        }
+      ]
+    },{
+      path: '/hotel',
+      name: 'hotel',
+      component: () => import('@/views/dashbored/mainPage'),
+      noCache: true,
+      meta: {title: '信息'},
+      children: [
+        {
+          path: '/hotel/hotelInfo',
+          name: 'hotelInfo',
+          meta: {title: '基础信息'},
+          component: () => import('@/views/hotel/hotelInfo'),
           noCache: true
         }
       ]

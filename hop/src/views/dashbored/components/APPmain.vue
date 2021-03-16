@@ -18,7 +18,7 @@ export default {
 <style scoped>
 .main{
   height: 91.7%;
-  width: 100%;
+  width: 95%;
   position: absolute;
   bottom: 0;
   right: 0;
