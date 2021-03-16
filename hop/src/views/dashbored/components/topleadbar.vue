@@ -44,6 +44,7 @@ export default {
   },
   watch: {
     $route(route) {
+      console.log(route)
       this.getBreadcrumb()
     }
   },
@@ -55,6 +56,7 @@ export default {
       console.log(teb)
     },
     handleTabsEdit(targetName, action) {
+      console.log(targetName,action)
       if (action === 'add') {
         let newTabName = ++this.tabIndex + '';
         this.editableTabs.push({
@@ -103,7 +105,7 @@ export default {
       let matched = this.$route.matched.filter(item => item.name)
       const first = matched[0];
       if (first && first.name.trim().toLocaleLowerCase() !== 'Dashboard'.toLocaleLowerCase()) {
-        matched = [{ path: '/mainPage', meta: { title: '首页' }}].concat(matched)
+        matched = [].concat(matched)
       }
       this.levelList = matched
     }

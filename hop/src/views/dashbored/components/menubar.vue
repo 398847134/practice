@@ -11,7 +11,7 @@
         ref="menu"
         router
         active-text-color="#ffd04b">
-        <el-menu-item index="1">
+        <el-menu-item index="/mainPage/statistics">
           <i class="el-icon-menu"></i>
           <span slot="title">首页</span>
         </el-menu-item>

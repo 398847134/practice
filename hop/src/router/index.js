@@ -18,7 +18,13 @@ export default new Router({
       component: () => import('@/views/dashbored/mainPage'),
       noCache: true,
       children: [
-
+        {
+          path: '/mainPage/statistics',
+          name: 'statistics',
+          component: () => import('@/views/statistics/statistics'),
+          noCache: true,
+          meta: {title: '首页统计'}
+        }
       ]
     },{
       path: '/permission',

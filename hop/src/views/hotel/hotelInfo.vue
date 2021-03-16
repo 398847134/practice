@@ -1,18 +1,29 @@
 <template>
   <div style="padding: 40px">
-    <v-layout>
-      <v-flex xs18 md8>
-
-      </v-flex>
-
-      <v-flex xs18 md8>
-
-      </v-flex>
-    </v-layout>
     <v-toolbar color="#EEEEEE" style="height:190px;padding:10px 10px;width: 90%">
-      <el-tooltip class="item" effect="dark" content="数据请求测试" placement="top">
-        <v-btn  color="green" dark @click="test"><v-icon>add</v-icon></v-btn>
-      </el-tooltip>
+      <v-layout style="width: 50px">
+        <v-text-field
+          label="请选择搜索内容"
+          v-model="searchName"
+          hide-details
+          append-icon="search"
+          style="width:15px;padding: 10px"
+          @click:append="search(20,1)"
+          @keyup.enter.native="search(20,1)"
+        ></v-text-field>
+        <v-text-field
+          label="请选择搜索内容"
+          v-model="searchName"
+          hide-details
+          append-icon="search"
+          style="width:15px;padding: 10px"
+          @click:append="search(20,1)"
+          @keyup.enter.native="search(20,1)"
+        ></v-text-field>
+      </v-layout>
+        <el-tooltip class="item" effect="dark" content="数据请求测试" placement="top">
+          <v-btn  color="green" dark @click="test"><v-icon>add</v-icon></v-btn>
+        </el-tooltip>
     </v-toolbar>
     <v-card hover style="padding:40px;width: 90%">
         <el-table
@@ -52,6 +63,18 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="block" align="center" ref="div">
+        <el-pagination
+          style="margin-top:20px;"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-sizes="[20, 50, 100, 200]"
+          :page-size="pageSize"
+          layout="total, slot, sizes, prev, pager, next, jumper"
+          :total="total"
+        >
+        </el-pagination>
+      </div>
     </v-card>
   </div>
 </template>
@@ -63,6 +86,9 @@ export default {
   name: "hotelInfo",
   data () {
     return {
+      pageSize: 20,
+      total: 3,
+      searchName: '',
       tableData: [
         {
           date: '2016-05-02',
@@ -85,6 +111,15 @@ export default {
     }
   },
   methods: {
+    handleCurrentChange () {
+
+    },
+    handleSizeChange () {
+
+    },
+    search (size, page) {
+
+    },
     handleSelectionChange (row) {
 
     },
