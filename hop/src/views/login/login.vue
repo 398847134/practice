@@ -59,7 +59,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$message.success('登陆成功')
-          this.$router.push('mainpage')
+          this.$router.push('/mainPage/statistics')
         } else {
           console.log('error submit!!')
           return false

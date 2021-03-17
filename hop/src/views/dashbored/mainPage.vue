@@ -22,6 +22,7 @@ export default {
   width: 100%;
 }
 .el-col-3{
+  position: fixed;
   width: 200px;
   height: 100%;
   background-color: rgb(84, 92, 100);

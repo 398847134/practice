@@ -53,13 +53,20 @@ export default new Router({
       name: 'hotel',
       component: () => import('@/views/dashbored/mainPage'),
       noCache: true,
-      meta: {title: '信息'},
+      meta: {title: '基础信息'},
       children: [
         {
           path: '/hotel/hotelInfo',
           name: 'hotelInfo',
-          meta: {title: '基础信息'},
+          meta: {title: '酒店基础信息'},
           component: () => import('@/views/hotel/hotelInfo'),
+          noCache: true
+        },
+        {
+          path: '/hotel/cityinfo',
+          name: 'cityinfo',
+          meta: {title: '城市基础信息'},
+          component: () => import('@/views/hotel/cityinfo'),
           noCache: true
         }
       ]

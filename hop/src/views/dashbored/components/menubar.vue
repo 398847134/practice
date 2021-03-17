@@ -21,10 +21,9 @@
             <span>信息</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/hotel/hotelInfo">基础信息</el-menu-item>
-            <el-menu-item index="/test2">选项2</el-menu-item>
+            <el-menu-item index="/hotel/hotelInfo">酒店信息</el-menu-item>
+            <el-menu-item index="/hotel/cityinfo">城市信息</el-menu-item>
           </el-menu-item-group>
-          <el-menu-item index="2-3">选项3</el-menu-item>
         </el-submenu>
         <el-submenu index="permission">
         <template slot="title">
@@ -35,18 +34,6 @@
           <el-menu-item index="/permission/user">用户权限</el-menu-item>
           <el-menu-item index="/permission/role">角色设置</el-menu-item>
         </el-menu-item-group>
-        <el-menu-item index="3-3">选项3</el-menu-item>
-      </el-submenu>
-        <el-submenu index="4">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>导航四</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="4-1">选项1</el-menu-item>
-          <el-menu-item index="4-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item index="4-3">选项3</el-menu-item>
       </el-submenu>
       </el-menu>
     </el-col>

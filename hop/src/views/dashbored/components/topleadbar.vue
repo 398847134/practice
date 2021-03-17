@@ -30,12 +30,7 @@ export default {
       editableTabs: [
         {
           title: '首页',
-          name: '1',
-          content: ''
-        },
-        {
-          title: '基础信息',
-          name: '2',
+          name: '/mainPage/statistics',
           content: ''
         }
       ],
@@ -44,44 +39,68 @@ export default {
   },
   watch: {
     $route(route) {
-      console.log(route)
+      this.newTab(route)
       this.getBreadcrumb()
     }
   },
   created(){
     this.getBreadcrumb();
+    this.initTeb()
   },
   methods: {
-    tabClick (teb) {
-      console.log(teb)
+    initTeb () {
+      if (this.$route.fullPath !== '/mainPage/statistics') {
+        this.handleTabsEdit(this.$route.fullPath, 'add', this.$route.fullPath, this.$route.meta.title)
+      }
     },
-    handleTabsEdit(targetName, action) {
-      console.log(targetName,action)
+    newTab (route) {
+      let exit = false
+      for (let i in this.editableTabs) {
+        if (route.fullPath === this.editableTabs[i].name) {
+          exit = true
+          this.editableTabsValue = route.fullPath
+        }
+      }
+      if (!exit) {
+        this.handleTabsEdit (route.fullPath,'add',route.fullPath,route.meta.title)
+      }
+    },
+    tabClick (tab) {
+      if (this.$route.fullPath !== tab.name){
+        this.$router.push(tab.name)
+      }
+    },
+    handleTabsEdit(targetName, action,name,title) {
       if (action === 'add') {
         let newTabName = ++this.tabIndex + '';
         this.editableTabs.push({
-          title: 'New Tab',
-          name: newTabName,
-          content: 'New Tab content'
+          title: title,
+          name: name,
+          content: ''
         });
         this.editableTabsValue = newTabName;
+        this.editableTabsValue = name
       }
       if (action === 'remove') {
-        let tabs = this.editableTabs;
-        let activeName = this.editableTabsValue;
-        if (activeName === targetName) {
-          tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
-              if (nextTab) {
-                activeName = nextTab.name;
+        if (targetName !== '/mainPage/statistics') {
+          let tabs = this.editableTabs;
+          let activeName = this.editableTabsValue;
+          if (activeName === targetName) {
+            tabs.forEach((tab, index) => {
+              if (tab.name === targetName) {
+                let nextTab = tabs[index + 1] || tabs[index - 1];
+                if (nextTab) {
+                  activeName = nextTab.name;
+                }
               }
-            }
-          });
+            });
+          }
+          this.editableTabsValue = activeName;
+          this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+          this.$router.push(activeName)
+        }else {
+          this.$message.warning('根路径不支持删除')
         }
-
-        this.editableTabsValue = activeName;
-        this.editableTabs = tabs.filter(tab => tab.name !== targetName);
       }
     },
     pathCompile (path) {

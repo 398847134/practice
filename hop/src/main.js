@@ -9,6 +9,8 @@ import echarts from 'echarts'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'vuetify/dist/vuetify.css'
 import {fetch} from './utils/https'
+import * as filters from './filter/filter'
+
 
 Vue.use(ElementUI);
 Vue.use(Vuetify)
@@ -16,7 +18,9 @@ Vue.use(echarts)
 Vue.use(animate)
 // 请求封装
 Vue.prototype.$fetch = fetch
-
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 new Vue({
   el: '#app',
   router,
