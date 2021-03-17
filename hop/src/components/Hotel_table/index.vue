@@ -4,6 +4,7 @@
               :row-style="rowStyle"
               class="hElTable"
               @row-dblclick="rowDblclick"
+              @row-click="rowClick"
               @select="tableSelect"
               @select-all="tableSelectAll"
               @selection-change="selectionChange"
@@ -14,7 +15,7 @@
               :cell-class-name="cellClassName"
               :border="border"
               :fit="fit"
-              ref="htable"
+              ref="table"
               stript="true"
               v-loading="loading"
               element-loading-text="努力加载中..."
@@ -22,20 +23,62 @@
               element-loading-background="rgba(0, 0, 0, 0.3)"
               :max-height="maxHeight"
               @cell-mouse-enter="hoverenter"
-              @cell-mouse-leave="hoverleave">
-      <el-table-column type="index" align="center" fixed></el-table-column>
+              @cell-mouse-leave="hoverleave"
+
+    >
+      <el-table-column v-if="this.showSelect" type="selection" width="50px" :reserve-selection="true" :selectable="selectbale" fixed></el-table-column>
+      <el-table-column v-if="this.showRadio" type="selection" width="50px">
+        <template slot-scope="scope">
+          <el-radio :label="scope.row.id" v-model="radio" @change.native="getTemplateRow(scope.$index,scope.row)">&nbsp;</el-radio>
+        </template>
+      </el-table-column>
+      <el-table-column v-if="this.showIndex" type="index" width="80px" align="center" :index="indexMethod"></el-table-column>
       <!-- prop: 字段名name, label: 展示的名称, fixed: 是否需要固定(left, right), minWidth: 设置列的最小宽度(不传默认值), oper: 是否有操作列
            oper.name: 操作列字段名称, oper.clickFun: 操作列点击事件, formatData: 格式化内容 -->
-      <el-table-column v-for="(th, key) in tableHeader"
+      <el-table-column sortable v-for="(th, key) in tableHeader"
+                       v-if="th.show !== '0'"
+                       :show-overflow-tooltip="showOverflow"
                        :key="key"
                        :prop="th.prop"
                        :label="th.label"
                        :fixed="th.fixed"
                        :min-width="th.minWidth" align="center">
-        <!-- 加入template主要是有操作一栏， 操作一栏的内容是相同的， 数据不是动态获取的，不过我这里操作一栏的名字定死了（oper表示是操作这一列，否则就不是） -->
+        <el-table-column sortable v-if="th.child" v-for="(cth,ckey) in th.child"
+                         :show-overflow-tooltip="showOverflow"
+                         :key="ckey"
+                         :prop="cth.prop"
+                         :label="cth.label"
+                         :min-width="cth.minWidth" align="center">
+        </el-table-column>
+
+        <!-- 加入template主要是有操作一栏， 操作一栏的内容是相同的，（oper表示是操作这一列，否则就不是） -->
+        <!-- 加入icon选项，默认为el-icon-menu，可通过icon属性修改图标 -->
         <template slot-scope="scope">
           <div v-if="th.oper">
-            <el-button v-for="(o, key) in th.oper" :key="key" @click="o.clickFun(scope.row)" type="text" size="small">{{o.name}}</el-button>
+            <el-tooltip v-for="(o, key) in th.oper" :key="key" class="item" effect="dark" placement="top">
+              <div slot="content"><span style="white-space: pre-wrap;">{{o.name}}</span></div>
+              <!--            <el-button v-if="o.name == '添加到知识库' && scope.row.mgr != 'syslogd'" disabled @click="o.clickFun(scope.row)" circle size="mini" :type="o.type" :icon="o.icon == null?'el-icon-menu':o.icon"></el-button>-->
+              <!--            <el-button v-else @click="o.clickFun(scope.row)" circle size="mini" :type="o.type" :icon="o.icon == null?'el-icon-menu':o.icon"></el-button>-->
+              <el-button @click="o.clickFun(scope.row)" circle size="mini" :type="o.type" :icon="o.icon == null?'el-icon-menu':o.icon"></el-button>
+
+            </el-tooltip>
+          </div>
+          <div v-else-if="th.switch">
+            <el-switch
+              v-model="scope.row.status"
+              :active-value="th.switch.activeValue"
+              :inactive-value="th.switch.inactiveValue"
+              :active-text="th.switch.activeText"
+              :inactive-text="th.switch.inactiveText"
+              @change="th.switch.changeStatus(scope.row)"
+              :active-color="th.switch.activeColor"
+              :inactive-color="th.switch.inactiveColor">
+            </el-switch>
+            <!--
+              :active-value="th.switch.activeValue"
+              :inactive-value="th.switch.inactiveValue"
+              :active-text="th.switch.activeText"
+              :inactive-text="th.switch.inactiveText"-->
           </div>
           <div v-else>
             <span v-if="!th.formatData">{{ scope.row[th.prop] }}</span>
@@ -44,6 +87,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 显示页码 -->
     <div class="block" v-if="ifPagination" align="center">
       <el-pagination
         style="margin-top:20px;"
@@ -55,23 +99,16 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
       </el-pagination>
+
+      <!--"[5, 10, 15, 20]"-->
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "hotel_table",
-  data () {
-    return {
-      radio: '',
-      templateSelection: '',
-      newPageSize: this.pageSize,
-      newCurrentPage: this.currentPage,
-      newTotal: this.total,
-      showOverflow: true
-    }
-  },
+  name: 'hotel_table',
+  // 子类向父类传值
   props: {
     hoverenter:{
       type:Function,
@@ -226,7 +263,7 @@ export default {
     // 展示条目数
     pageSize: {
       type: Number,
-      default: 1
+      default: 20
     },
     // 总数
     total: {
@@ -242,9 +279,40 @@ export default {
     },
     reserve: true
   },
+  data () {
+    return {
+      radio: '',
+      templateSelection: '',
+      newPageSize: this.pageSize,
+      newCurrentPage: this.currentPage,
+      newTotal: this.total,
+      showOverflow: true
+    }
+  },
+  methods: {
+    // 计算页码
+    indexMethod (index) {
+      return (this.currentPage - 1) * this.pageSize + index + 1
+    },
+    getTemplateRow (index, row) { // 获取选中数据
+      this.templateSelection = row
+      this.selectionChange([this.templateSelection])
+    },
+    // 禁用多选框 字段disableMultiSelect
+    selectbale (row) {
+      if (row.disableMultiSelect === 1) {
+        return false
+      } else {
+        return true
+      }
+    }
+  }
 }
 </script>
 
+<style>
+
+</style>
 <style scoped>
 
 </style>

@@ -3,7 +3,7 @@ import axios from 'axios'
 const baseIPs = {
   ROOT: '/',
   base: '192.168.0.224',
-  hotelTest:  'http://www.smono.cn'
+  hotelTest:  'http://www.smono.cn',
 }
 export const baseurl = baseIPs.hotelTest
 

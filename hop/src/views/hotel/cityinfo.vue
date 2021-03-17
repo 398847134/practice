@@ -102,10 +102,12 @@ export default {
 
     },
     handleSizeChange (size) {
-
+      this.pageSize = size
+      this.getCityInfo(1,size)
     },
     handleCurrentChange (current) {
-
+      this.currentPage = current
+      this.getCityInfo(current,this.pageSize)
     },
   }
 }

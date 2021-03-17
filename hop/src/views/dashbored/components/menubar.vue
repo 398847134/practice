@@ -1,7 +1,7 @@
 <template>
     <el-col :span="3">
       <el-menu
-        default-active="2"
+        default-active="active"
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
@@ -45,7 +45,8 @@ export default {
   name: "menubar",
   data () {
     return {
-      basePath: '/'
+      basePath: '/',
+      active: 2
     }
   },
   methods: {
