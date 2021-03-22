@@ -1,14 +1,11 @@
-<template>
+<template xmlns:el-col="http://www.w3.org/1999/html">
   <div style="padding: 40px">
-    <v-toolbar color="#EEEEEE" style="height:190px;padding:10px 10px;width: 90%">
+    <v-toolbar color="#EEEEEE" style="height:110px;padding:10px 10px;width: 90%">
       <v-container fluid grid-list-xl style="padding:15px;!important">
         <v-layout>
           <v-flex xs9 md4>
-            <v-select label="城市" clearable :items="cityList" v-model="searchInfo.city"></v-select>
-          </v-flex>
-          <v-flex xs9 md4>
             <v-text-field
-              label="请选择搜索内容"
+              label="请输入搜索酒店名称"
               v-model="searchName"
               hide-details
               append-icon="search"
@@ -19,9 +16,7 @@
           </v-flex>
         </v-layout>
         <v-layout style="float: right;margin-bottom: 10px;margin-top: -15px">
-          <el-tooltip class="item" effect="dark" content="查询" placement="top" style="float: right">
-            <v-btn dark style="color:#ffffff" color="green" @click="gethotelinfo"><v-icon>search</v-icon></v-btn>
-          </el-tooltip>
+
         </v-layout>
       </v-container>
     </v-toolbar>
@@ -41,8 +36,58 @@
         :handleCurrentChange="handleCurrentChange"
       >
       </Hotel_table>
-
     </v-card>
+    <el-dialog title="酒店详情" :visible.sync="dialogTableVisible" style="width: 100%;">
+      <el-row :gutter="20">
+        <el-col :span="14" style="text-align: left;font-size: 20px">
+          <label class="labels">酒店名称：  </label>
+          <span v-text="details.hotelName"></span>
+          <br/>
+          <label class="labels">酒店联系方式：  </label>
+          <span v-text="details.phone"></span>
+          <br/>
+          <label class="labels">酒店地址：  </label>
+          <span v-text="details.hotelAddr"></span>
+          <br/>
+          <label class="labels">酒店星级：  </label>
+          <span v-text="details.star"></span>
+          <br/>
+          <label class="labels">酒店简介：  </label>
+          <span v-text="details.introduceCn"></span>
+        </el-col>
+        <el-col :span="8">
+          <el-image
+          style="width: 300px; height: 250px"
+          :src="hotelImg">
+        </el-image>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20" style="margin-top: 20px">
+        <el-col :span="12">
+          <el-select v-model="details.roomType" placeholder="房型">
+            <el-option v-for="(item, index) in this.roomType" :key="index" :label="item.roomTypeCn" :value="item.roomTypeCn" style="float: left"></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="12">
+          <el-button type="primary" @click="checkroom">查看房态</el-button>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20" style="margin-top: 20px;font-size: 30px;line-height: 50px">
+        <el-col :span="12">
+          <label class="labels">床型：  </label>
+          <span v-text="details.bed"></span>
+        </el-col>
+        <el-col :span="12">
+          <label class="labels">是否含早餐：  </label>
+          <span v-text="details.breakfast"></span>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20" style="margin-top: 30px">
+        <el-col :span="8">
+
+        </el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -56,15 +101,30 @@ export default {
   components: {Hotel_table},
   data () {
     return {
+      details:{
+        id: '',
+        hotelName: '',
+        hotelAddr: '',
+        phone: '',
+        star: '',
+        introduceCn: '',
+        roomType: '',
+        bed: '大床',
+        breakfast: '含早',
+      },
+      roomType: [],
+      dialogTableVisible: false,
+      hotelImg: '',
+      imgFit: 'fill',
       searchInfo: {
         city: ''
       },
       cityList: ['上海','云南'],
       tableHeader: [
-        {prop: 'id', label: '酒店ID', minWidth: '140px'},
-        {prop: 'hotelId', label: '酒店云ID', minWidth: '140px'},
+        {prop: 'id', label: '酒店ID', minWidth: '100px'},
+        {prop: 'hotelId', label: '酒店云ID', minWidth: '120px'},
         {prop: 'hotelNameCn', label: '酒店名称', minWidth: '280px'},
-        {prop: 'phone', label: '酒店电话', minWidth: '280px'},
+        {prop: 'phone', label: '酒店电话', minWidth: '220px'},
         {prop: 'addressCn', label: '酒店地址', minWidth: '280px'},
         {prop: 'operating',
           label: '操作',
@@ -72,8 +132,8 @@ export default {
           fixed: 'right',
           oper: [
             // eslint-disable-next-line standard/object-curly-even-spacing
-            { name: '房态', clickFun: this.handleClick, type: 'primary'},
-            { name: '上下线', clickFun: this.handleClick, type: 'primary'},
+            { name: '房态', clickFun: this.getInfoById, type: 'primary'},
+            { name: '上下线', clickFun: this.handleClick, type: 'primary',icon: 'el-icon-top'},
           ]
         }
       ],
@@ -86,8 +146,48 @@ export default {
     }
   },
   methods: {
-    rowDblclick () {
+    checkroom () {
 
+    },
+    getInfoById (row) {
+      console.log(row)
+      this.$fetch(HOTELINFO.QUERY_ROOM_BY_ID.url,{hotel: row.id}).then(res => {
+        console.log(res)
+      }).catch(() => {
+        this.$message({
+          type: 'error',
+          message: '请求失败'
+        })
+      })
+    },
+    rowDblclick (row) {
+      this.hotelImg = ''
+      this.dialogTableVisible = true
+      this.details.hotelName = row.hotelNameCn
+      this.details.hotelAddr = row.addressCn
+      this.details.phone = row.phone
+      this.details.star = row.star
+      this.details.id = row.id
+      this.details.introduceCn = row.introduceCn
+      this.$fetch(HOTELINFO.QUERY_HOTELIMAGE_BY_ID.url,{hotel: row.id}).then(res => {
+        this.hotelImg = res.results[0].imageUrl
+      }).catch(() => {
+        this.$message({
+          type: 'error',
+          message: '未找到酒店图片'
+        })
+      })
+      this.getroomtypebyid(row)
+    },
+    getroomtypebyid (row) {
+      this.$fetch(HOTELINFO.QUERY_ROOM_BY_ID.url,{hotel: row.id}).then(res => {
+        this.roomType = res.results
+      }).catch(() => {
+        this.$message({
+          type: 'error',
+          message: '未找到酒店房型'
+        })
+      })
     },
     getRowKeys (row) {
       return row.id
@@ -110,7 +210,7 @@ export default {
 
     },
     gethotelinfo (current, pageSize) {
-      this.$fetch(HOTELINFO.QUERY.url,{page:current, page_size:pageSize }).then(res => {
+      this.$fetch(HOTELINFO.QUERY.url,{page:current, page_size:pageSize, }).then(res => {
         this.tableData = res.results
         this.total = res.count
         this.currentPage = current
@@ -135,5 +235,8 @@ export default {
 <style>
 .el-pagination__editor.el-input{
   width: 100px;
+}
+.el-dialog{
+  border-radius: 30px;
 }
 </style>

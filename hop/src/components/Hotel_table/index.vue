@@ -59,7 +59,7 @@
               <div slot="content"><span style="white-space: pre-wrap;">{{o.name}}</span></div>
               <!--            <el-button v-if="o.name == '添加到知识库' && scope.row.mgr != 'syslogd'" disabled @click="o.clickFun(scope.row)" circle size="mini" :type="o.type" :icon="o.icon == null?'el-icon-menu':o.icon"></el-button>-->
               <!--            <el-button v-else @click="o.clickFun(scope.row)" circle size="mini" :type="o.type" :icon="o.icon == null?'el-icon-menu':o.icon"></el-button>-->
-              <el-button @click="o.clickFun(scope.row)" circle size="mini" :type="o.type" :icon="o.icon == null?'el-icon-menu':o.icon"></el-button>
+              <el-button @click="o.clickFun(scope.row)" size="mini" :type="o.type" :icon="o.icon == null?'el-icon-menu':o.icon"></el-button>
 
             </el-tooltip>
           </div>

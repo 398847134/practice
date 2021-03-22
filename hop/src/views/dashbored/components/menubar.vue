@@ -35,6 +35,15 @@
           <el-menu-item index="/permission/role">角色设置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
+        <el-submenu index="setup">
+          <template slot="title">
+            <i class="el-icon-location"></i>
+            <span>设置信息</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="/setup/pricesetting">设置</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
       </el-menu>
     </el-col>
 </template>

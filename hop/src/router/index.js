@@ -70,7 +70,22 @@ export default new Router({
           noCache: true
         }
       ]
-    }
+    },{
+      path: '/setup',
+      name: 'setup',
+      component: () => import('@/views/dashbored/mainPage'),
+      noCache: true,
+      meta: {title: '设置信息'},
+      children: [
+        {
+          path: '/setup/pricesetting',
+          name: 'pricesetting',
+          meta: {title: '设置基础信息'},
+          component: () => import('@/views/setup/pricesetting'),
+          noCache: true
+        }
+      ]
+  }
   ]
 })
 
