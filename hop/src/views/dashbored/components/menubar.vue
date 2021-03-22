@@ -25,16 +25,16 @@
             <el-menu-item index="/hotel/cityinfo">城市信息</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="permission">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>用户权限</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="/permission/user">用户权限</el-menu-item>
-          <el-menu-item index="/permission/role">角色设置</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+<!--        <el-submenu index="permission">-->
+<!--        <template slot="title">-->
+<!--          <i class="el-icon-location"></i>-->
+<!--          <span>用户权限</span>-->
+<!--        </template>-->
+<!--        <el-menu-item-group>-->
+<!--          <el-menu-item index="/permission/user">用户权限</el-menu-item>-->
+<!--          <el-menu-item index="/permission/role">角色设置</el-menu-item>-->
+<!--        </el-menu-item-group>-->
+<!--      </el-submenu>-->
         <el-submenu index="setup">
           <template slot="title">
             <i class="el-icon-location"></i>
